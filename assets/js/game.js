@@ -6,34 +6,49 @@ var body = document.body
 var game = document.getElementById("game");
 var questions = [
     {
-        q: "This is a question",
-        a: "a. answer 1",
-        b: "b. answer 2",
-        c: "c. answer 3",
-        d: "d. answer 4",
+        q: "How do you add javascript to a webpage?",
+        a: "a. You use the link tag.",
+        b: "b. You use the script tag.",
+        c: "c. You use the link tag or the script tag.",
+        d: "d. None of the above.",
         userAnswer: null,
-        answer: "b",
-        answered: false
+        answer: "b"
     },
     {
-        q: "This is a question",
-        a: "a. answer 1",
-        b: "b. answer 2",
-        c: "c. answer 3",
-        d: "d. answer 4",
+        q: "When does javascript execute?",
+        a: "a. After the page loads.",
+        b: "b. When you click a button.",
+        c: "c. As the page loads.",
+        d: "d. None of the above.",
         userAnswer: null,
         answer: "c",
-        answered: false
     },
     {
-        q: "This is a question",
-        a: "a. answer 1",
-        b: "b. answer 2",
-        c: "c. answer 3",
-        d: "d. answer 4",
+        q: "How do you create a function in javascript?",
+        a: "a. function functionName(){}",
+        b: "b. var functionName = function(){}",
+        c: "c. Both a & b",
+        d: "d. None of the above.",
         userAnswer: null,
-        answer: "a",
-        answered: false
+        answer: "c",
+    },
+    {
+        q: "How do you retrieve information from local storage?",
+        a: "a. localStorage.setItem()",
+        b: "b. localStorage()",
+        c: "c. localStorage.itemName",
+        d: "d. localStorage.getItem()",
+        userAnswer: null,
+        answer: "d"
+    },
+    {
+        q: "When do you use an if else statement?",
+        a: "a. When you've already used an if statement.",
+        b: "b. It is the same as an if statement you can use either.",
+        c: "c. It is the same as an else statement.",
+        d: "d. None of the above.",
+        userAnswer: null,
+        answer: "a"
     }
 ]
 
