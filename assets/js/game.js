@@ -58,9 +58,10 @@ function timer() {
     var countdown = setInterval(function(){
         if (timeLeft> 0){
             console.log(timeLeft)
+            time.textContent = timeLeft;
             timeLeft--;
         }
-        else if (timeLeft === 0){
+        else if (timeLeft === 0 ){
             clearInterval(countdown);
             console.log("game over");
         }
@@ -83,18 +84,20 @@ function timer() {
         }  
    }
    function checkAnswer(){
-       if (questions[questionNumber].userAnswer===questions[questionNumber].answer){
-           score++;
-           console.log(score);
-           console.log(questionNumber)
-       }
-       else {
+        if (questions[questionNumber].userAnswer===questions[questionNumber].answer){
+            score++;
+            scoreDisplay.textContent = score;
+            console.log(score);
+            console.log(questionNumber)
+        }
+        else {
             timeLeft = timeLeft - 5;
             console.log(score);
+            scoreDisplay.textContent = score;
             console.log(timeLeft);
             console.log(questionNumber);
-       }
-   }
+        }
+    }
    function askQuestion(){
         game.innerHTML = "";
         var q = document.createElement("p");
@@ -124,6 +127,6 @@ function timer() {
         game.appendChild(d);
     }
     function startGame() {
-        startButton.onclick = function(){askQuestion()};
+        startButton.onclick = function(){askQuestion(), timer()};
     }
 startGame();
