@@ -63,7 +63,7 @@ function timer() {
         }
         else if (timeLeft === 0 ){
             clearInterval(countdown);
-            console.log("game over");
+            console.log(score);
         }
     }, 1000);
 }
@@ -78,6 +78,8 @@ function timer() {
         questionNumber++;
         if(questionNumber >= questions.length) {
             console.log("done")
+            score = score + timeLeft;
+            endGame();
         }
         else{
             askQuestion();
@@ -91,7 +93,7 @@ function timer() {
             console.log(questionNumber)
         }
         else {
-            timeLeft = timeLeft - 5;
+            timeLeft = timeLeft - 10;
             console.log(score);
             scoreDisplay.textContent = score;
             console.log(timeLeft);
@@ -125,6 +127,26 @@ function timer() {
         game.appendChild(b);
         game.appendChild(c);
         game.appendChild(d);
+    }
+    function endGame(){
+        timeLeft = 0;
+        time.textContent = "";
+        scoreDisplay.innerHTML = "";
+        var finalScore = document.createElement("p");
+        finalScore.innerHTML = score;
+        game.appendChild(finalScore);
+        var entryLabel = document.createElement("label")
+        entryLabel.setAttribute("for","initials");
+        entryLabel.innerHTML = "Enter Initials:"
+        var enterInitials = document.createElement("input");
+        enterInitials.setAttribute("type", "text");
+        enterInitials.setAttribute("id", "initials");
+        enterInitials.setAttribute("name", "initials");
+        game.appendChild(entryLabel);
+        game.appendChild(enterInitials);
+        var submit = document.createElement("button");
+        submit.innerHTML= "Submit!";
+        game.appendChild(submit);
     }
     function startGame() {
         startButton.onclick = function(){askQuestion(), timer()};
