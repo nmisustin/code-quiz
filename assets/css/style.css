@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+header {
+    background-color: rgb(97, 40, 150);
+    color: white;
+    display: flex;
+    justify-content: space-around;
+}
+header h1 a{
+    text-decoration: none;
+    color: white;
+}
+header button{
+    background-color: rgb(157, 72, 236);
+    color: white;
+    font-size: 20px;
+    margin: 20px;
+    border:white;
+    padding: 5px;
+    border-radius: 3px;
+}
+footer {
+    background-color: rgb(97, 40, 150);
+    color: white;
+}
+footer h2 {
+    padding: 20px;
+}
+#game {
+    margin: 20%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#startButton {
+    background-color: rgb(157, 72, 236);
+    color: white;
+    font-size: 30px;
+    margin: 20px;
+    border:white;
+    padding: 5px;
+    border-radius: 3px;
+}
+#game p{
+    flex: 100%;
+    font-size: 20px;
+    text-align: center;
+}
+.answerChoice{
+    flex: 1;
+    width: 80%;
+    margin: 10px;
+    background-color: rgb(157, 72, 236);
+    color: white;
+    font-size: 20px;
+    border:white;
+    padding: 5px;
+    border-radius: 3px;
+}
+#game label {
+    font-size: 20px;
+}
+#submitButton{
+    flex:50%;
+    background-color: rgb(157, 72, 236);
+    color: white;
+    font-size: 20px;
+    margin: 20px;
+    border:white;
+    padding: 5px;
+    border-radius: 3px;
+}
+#initials{
+    margin: 0 10px ;
+}

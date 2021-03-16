@@ -53,6 +53,7 @@ var questions = [
 ]
 var savedScore = [];
 var highScoreButton = document.getElementById("highScore");
+var questionNumber = 0
 
 //timer function
 var timeLeft = 60;
@@ -65,123 +66,126 @@ function timer() {
         }
         else if (timeLeft === 0 ){
             clearInterval(countdown);
-            console.log(score);
+            game.innerHTML = "";
+            endGame();
         }
     }, 1000);
 }
-//game function
-   //cycle through an array of question objects
-   // use charAt(0) to verify answer.
-   var questionNumber = 0
-   function chooseAnswer(answer){
-        questions[questionNumber].userAnswer = answer;
-        game.innerHTML="";
-        checkAnswer();
-        questionNumber++;
-        if(questionNumber >= questions.length) {
-            console.log("done")
-            score = score + timeLeft;
-            endGame();
-        }
-        else{
-            askQuestion();
-        }  
-   }
-   function checkAnswer(){
-        if (questions[questionNumber].userAnswer===questions[questionNumber].answer){
-            score++;
-            scoreDisplay.textContent = score;
-            console.log(score);
-            console.log(questionNumber)
-        }
-        else {
-            timeLeft = timeLeft - 10;
-            console.log(score);
-            scoreDisplay.textContent = score;
-            console.log(timeLeft);
-            console.log(questionNumber);
-        }
+//function to record the user answer and recall the ask question function if there are more questions to ask.
+function chooseAnswer(answer){
+    questions[questionNumber].userAnswer = answer;
+    game.innerHTML="";
+    checkAnswer();
+    questionNumber++;
+    if(questionNumber >= questions.length) {
+        console.log("done")
+        score = score + timeLeft;
+        endGame();
     }
-   function askQuestion(){
-        game.innerHTML = "";
-        var q = document.createElement("p");
-        q.innerHTML = questions[questionNumber].q;
-        console.log(q)
-        game.appendChild(q);
-        var a = document.createElement("button");
-        a.innerHTML = questions[questionNumber].a;
-        a.setAttribute("class","answerChoice");
-        a.onclick = function(){chooseAnswer("a")}
-        var b = document.createElement("button");
-        b.innerHTML = questions[questionNumber].b;
-        b.setAttribute("class","answerChoice")
-        b.onclick = function(){chooseAnswer("b")}
-        var c = document.createElement("button");
-        c.innerHTML = questions[questionNumber].c;
-        c.setAttribute("class","answerChoice")
-        c.onclick = function(){chooseAnswer("c")}
-        var d = document.createElement("button");
-        d.innerHTML = questions[questionNumber].d;
-        d.setAttribute("class", "answerChoice")
-        d.onclick = function(){chooseAnswer("d")}
-        console.log(a, b, c, d)
-        game.appendChild(a);
-        game.appendChild(b);
-        game.appendChild(c);
-        game.appendChild(d);
+    else{
+        askQuestion();
+    }  
+}
+//function to check if the answer is correct then add to the score or take away time
+function checkAnswer(){
+    if (questions[questionNumber].userAnswer===questions[questionNumber].answer){
+        score++;
+        scoreDisplay.textContent = score;
+        console.log(score);
+        console.log(questionNumber)
     }
-    function endGame(){
-        timeLeft = 0;
-        time.textContent = "";
-        scoreDisplay.innerHTML = "";
-        var finalScore = document.createElement("p");
-        finalScore.innerHTML = score;
-        game.appendChild(finalScore);
-        var entryLabel = document.createElement("label")
-        entryLabel.setAttribute("for","initials");
-        entryLabel.innerHTML = "Enter Initials:"
-        var enterInitials = document.createElement("input");
-        enterInitials.setAttribute("type", "text");
-        enterInitials.setAttribute("id", "initials");
-        enterInitials.setAttribute("name", "initials");
-        game.appendChild(entryLabel);
-        game.appendChild(enterInitials);
-        var submit = document.createElement("button");
-        submit.innerHTML= "Submit!";
-        game.appendChild(submit);
-        submit.onclick = function(){highScoreSaver()};
+    else {
+        timeLeft = timeLeft - 10;
+        console.log(score);
+        scoreDisplay.textContent = score;
+        console.log(timeLeft);
+        console.log(questionNumber);
     }
-    function highScoreSaver(){
-        var highScore = score;
-        var initials = document.querySelector("input[name = 'initials']").value;
-        var scoreDataObj = {
-            initial: initials,
-            gameScore: highScore
-        }
-        getHighScores();
-        console.log(savedScore)
-        savedScore.push(scoreDataObj);
-        console.log(savedScore);
-        localStorage.setItem("highScore", JSON.stringify(savedScore));
+}
+//function to write out all of the questions and answers and send to the choose answer function when clicked
+function askQuestion(){
+    game.innerHTML = "";
+    var q = document.createElement("p");
+    q.innerHTML = questions[questionNumber].q;
+    console.log(q)
+    game.appendChild(q);
+    var a = document.createElement("button");
+    a.innerHTML = questions[questionNumber].a;
+    a.setAttribute("class","answerChoice");
+    a.onclick = function(){chooseAnswer("a")}
+    var b = document.createElement("button");
+    b.innerHTML = questions[questionNumber].b;
+    b.setAttribute("class","answerChoice")
+    b.onclick = function(){chooseAnswer("b")}
+    var c = document.createElement("button");
+    c.innerHTML = questions[questionNumber].c;
+    c.setAttribute("class","answerChoice")
+    c.onclick = function(){chooseAnswer("c")}
+    var d = document.createElement("button");
+    d.innerHTML = questions[questionNumber].d;
+    d.setAttribute("class", "answerChoice")
+    d.onclick = function(){chooseAnswer("d")}
+    console.log(a, b, c, d)
+    game.appendChild(a);
+    game.appendChild(b);
+    game.appendChild(c);
+    game.appendChild(d);
+}
+//function to end the game, show the score and offer to save the score
+function endGame(){
+    timeLeft = 0;
+    time.textContent = "";
+    scoreDisplay.innerHTML = "";
+    var finalScore = document.createElement("p");
+    finalScore.innerHTML = "Your score is: " + score;
+    game.appendChild(finalScore);
+    var entryLabel = document.createElement("label")
+    entryLabel.setAttribute("for","initials");
+    entryLabel.innerHTML = "Enter Initials:"
+    var enterInitials = document.createElement("input");
+    enterInitials.setAttribute("type", "text");
+    enterInitials.setAttribute("id", "initials");
+    enterInitials.setAttribute("name", "initials");
+    game.appendChild(entryLabel);
+    game.appendChild(enterInitials);
+    var submit = document.createElement("button");
+    submit.setAttribute("id","submitButton");
+    submit.innerHTML= "Submit!";
+    game.appendChild(submit);
+    submit.onclick = function(){highScoreSaver()};
+}
+// function to save the score into the local storage
+function highScoreSaver(){
+    var highScore = score;
+    var initials = document.querySelector("input[name = 'initials']").value;
+    var scoreDataObj = {
+        initial: initials,
+        gameScore: highScore
     }
-    function getHighScores(){
-        var highScore = localStorage.getItem("highScore");
-        if(!highScore){
-            return false;
-        }
-        savedScore = JSON.parse(highScore);
+    getHighScores();
+    console.log(savedScore)
+    savedScore.push(scoreDataObj);
+    console.log(savedScore);
+    localStorage.setItem("highScore", JSON.stringify(savedScore));
+}
+// function to retrieve the saved scores from local storage
+function getHighScores(){
+    var highScore = localStorage.getItem("highScore");
+    if(!highScore){
+        return false;
     }
-    function displayHighScores(){
-        game.innerHTML = "";
-        getHighScores();
-        for (var i = 0 ; i < savedScore.length; i++){
-            var highScoreDisplay = document.createElement("p");
-            highScoreDisplay.innerHTML = savedScore[i].initial + ":" + savedScore[i].gameScore;
-            game.appendChild(highScoreDisplay);
-        }
+    savedScore = JSON.parse(highScore);
+}
+//function to write out the saved scores when the high score button is clicked
+function displayHighScores(){
+    game.innerHTML = "";
+    getHighScores();
+    for (var i = 0 ; i < savedScore.length; i++){
+        var highScoreDisplay = document.createElement("p");
+        highScoreDisplay.innerHTML = savedScore[i].initial + ":" + savedScore[i].gameScore;
+        game.appendChild(highScoreDisplay);
     }
-    function startGame() {
-        startButton.onclick = function(){ askQuestion(), timer()};
-    }
+}
+//button event listeners
+startButton.onclick = function(){ askQuestion(), timer()};
 highScoreButton.onclick = function(){ displayHighScores()};
-startGame();
