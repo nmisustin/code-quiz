@@ -51,6 +51,8 @@ var questions = [
         answer: "a"
     }
 ]
+var savedScore = [];
+var highScoreButton = document.getElementById("highScore");
 
 //timer function
 var timeLeft = 60;
@@ -147,8 +149,39 @@ function timer() {
         var submit = document.createElement("button");
         submit.innerHTML= "Submit!";
         game.appendChild(submit);
+        submit.onclick = function(){highScoreSaver()};
+    }
+    function highScoreSaver(){
+        var highScore = score;
+        var initials = document.querySelector("input[name = 'initials']").value;
+        var scoreDataObj = {
+            initial: initials,
+            gameScore: highScore
+        }
+        getHighScores();
+        console.log(savedScore)
+        savedScore.push(scoreDataObj);
+        console.log(savedScore);
+        localStorage.setItem("highScore", JSON.stringify(savedScore));
+    }
+    function getHighScores(){
+        var highScore = localStorage.getItem("highScore");
+        if(!highScore){
+            return false;
+        }
+        savedScore = JSON.parse(highScore);
+    }
+    function displayHighScores(){
+        game.innerHTML = "";
+        getHighScores();
+        for (var i = 0 ; i < savedScore.length; i++){
+            var highScoreDisplay = document.createElement("p");
+            highScoreDisplay.innerHTML = savedScore[i].initial + ":" + savedScore[i].gameScore;
+            game.appendChild(highScoreDisplay);
+        }
     }
     function startGame() {
-        startButton.onclick = function(){askQuestion(), timer()};
+        startButton.onclick = function(){ askQuestion(), timer()};
     }
+highScoreButton.onclick = function(){ displayHighScores()};
 startGame();
