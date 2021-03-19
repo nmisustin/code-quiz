@@ -89,22 +89,31 @@ function chooseAnswer(answer){
 //function to check if the answer is correct then add to the score or take away time
 function checkAnswer(){
     if (questions[questionNumber].userAnswer===questions[questionNumber].answer){
+        game.innerHTML = "";
         score++;
         scoreDisplay.textContent = score;
         console.log(score);
         console.log(questionNumber)
+        var correct = document.createElement("p");
+        correct.innerHTML= "Your last asnwer was correct!";
+        correct.setAttribute("class", "wrongRight");
+        game.appendChild(correct);
     }
     else {
+        game.innerHTML = "";
         timeLeft = timeLeft - 10;
         console.log(score);
         scoreDisplay.textContent = score;
         console.log(timeLeft);
         console.log(questionNumber);
+        var wrong = document.createElement("p");
+        wrong.innerHTML = "Your last answer was wrong.";
+        wrong.setAttribute("class", "wrongRight");
+        game.appendChild(wrong);
     }
 }
 //function to write out all of the questions and answers and send to the choose answer function when clicked
 function askQuestion(){
-    game.innerHTML = "";
     var q = document.createElement("p");
     q.innerHTML = questions[questionNumber].q;
     console.log(q)
@@ -152,7 +161,7 @@ function endGame(){
     submit.setAttribute("id","submitButton");
     submit.innerHTML= "Submit!";
     game.appendChild(submit);
-    submit.onclick = function(){highScoreSaver()};
+    submit.onclick = function(){highScoreSaver(), displayHighScores()};
 }
 // function to save the score into the local storage
 function highScoreSaver(){
@@ -180,9 +189,19 @@ function getHighScores(){
 function displayHighScores(){
     game.innerHTML = "";
     getHighScores();
-    for (var i = 0 ; i < savedScore.length; i++){
+    var orderedScores = [];
+    for (var i=0; i<savedScore.length; i++){
+        orderedScores.push(i);
+    }
+    orderedScores.sort(function(a, b){
+        return savedScore[b].gameScore - savedScore[a].gameScore;
+    })
+    for (var i = 0 ; i < orderedScores.length; i++){
         var highScoreDisplay = document.createElement("p");
-        highScoreDisplay.innerHTML = savedScore[i].initial + ":" + savedScore[i].gameScore;
+        if (savedScore.length - 1 === orderedScores[i]){
+            highScoreDisplay.setAttribute("class", "mostRecent");
+        }
+        highScoreDisplay.innerHTML = savedScore[orderedScores[i]].initial + ":" + savedScore[orderedScores[i]].gameScore;
         game.appendChild(highScoreDisplay);
     }
 }
